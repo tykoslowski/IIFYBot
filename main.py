@@ -6,6 +6,7 @@ client = discord.Client()
 
 yes = 'Yes! LET\'S GO!!!'
 no = 'No, not yet!'
+evan_flag = False
 
 @client.event
 async def on_ready():
@@ -15,6 +16,9 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
+
+    if message.author.id == 262687110853689355:
+        evan_flag = True
 
     if message.content.startswith('is it ') or message.content.startswith('Is it '):
         rest_of_message = message.content[6:] # Get the rest of the message
@@ -65,5 +69,8 @@ async def on_message(message):
         
         # If no date has been specified, send an error message
         await message.channel.send('Please enter a valid date.')
+
+        if evan_flag is True:
+            await message.channel.send('Are you excited for D&D day, Evan?')
 
 client.run(bot_key)
