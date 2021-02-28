@@ -19,6 +19,8 @@ async def on_message(message):
 
     if message.author.id == 262687110853689355:
         evan_flag = True
+    else:
+        evan_flag = False
 
     if message.content.startswith('is it ') or message.content.startswith('Is it '):
         rest_of_message = message.content[6:] # Get the rest of the message
