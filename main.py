@@ -31,42 +31,56 @@ async def on_message(message):
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         if 'tuesday' in rest_of_message or 'Tuesday' in rest_of_message or 'tues' in rest_of_message or 'Tues' in rest_of_message:
             if today == 1:
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         if 'wednesday' in rest_of_message or 'Wednesday' in rest_of_message or 'wed' in rest_of_message or 'Wed' in rest_of_message:
             if today == 2:
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         if 'thursday' in rest_of_message or 'Thursday' in rest_of_message or 'thurs' in rest_of_message or 'Thurs' in rest_of_message:
             if today == 3:
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         if 'friday' in rest_of_message or 'Friday' in rest_of_message or 'fri' in rest_of_message or 'Fri' in rest_of_message:
             if today == 4:
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         if 'saturday' in rest_of_message or 'Saturday' in rest_of_message or 'sat' in rest_of_message or 'Sat' in rest_of_message:
             if today == 5:
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         if 'sunday' in rest_of_message or 'Sunday' in rest_of_message or 'sun' in rest_of_message or 'Sun' in rest_of_message:
             if today == 6:
                 await message.channel.send(yes)
             else:
                 await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Are you excited for D&D day, Evan?')
             return
         
         # If no date has been specified, send an error message
