@@ -1,12 +1,16 @@
 import discord
-import datetime
+from datetime import datetime, timezone
 from secrets import bot_key
+
+def utc_to_local(utc_dt):
+    return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
 client = discord.Client()
 
 yes = 'Yes! LET\'S GO!!!'
 no = 'No, not yet!'
 evan_flag = False
+dnd_day = [0, 2]
 
 @client.event
 async def on_ready():
@@ -22,11 +26,15 @@ async def on_message(message):
     else:
         evan_flag = False
 
-    if message.content.startswith('is it ') or message.content.startswith('Is it '):
-        rest_of_message = message.content[6:] # Get the rest of the message
-        today = datetime.datetime.today().weekday() # Get the day of the week as an integer (Mon: 0 - Sun: 6)
+    
+    if message.content.lower().startswith('is it '):
+        rest_of_message_temp = message.content[6:] # Get the rest of the message
+        rest_of_message = rest_of_message_temp.lower() # Format the rest of the message
+        dt_temp = datetime.datetime # Store datetime object
+        corrected_dt = utc_to_local(dt_temp) # Change timezone
+        today = corrected_dt.today().weekday() # Get the day of the week as an integer (Mon: 0 - Sun: 6)
 
-        if 'monday' in rest_of_message or 'Monday' in rest_of_message or 'mon' in rest_of_message or 'Mon' in rest_of_message:
+        if 'monday' in rest_of_message or 'mon' in rest_of_message:
             if today == 0:
                 await message.channel.send(yes)
             else:
@@ -34,7 +42,7 @@ async def on_message(message):
             if evan_flag is True:
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
-        if 'tuesday' in rest_of_message or 'Tuesday' in rest_of_message or 'tues' in rest_of_message or 'Tues' in rest_of_message:
+        elif 'tuesday' in rest_of_message or 'tues' in rest_of_message:
             if today == 1:
                 await message.channel.send(yes)
             else:
@@ -42,7 +50,7 @@ async def on_message(message):
             if evan_flag is True:
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
-        if 'wednesday' in rest_of_message or 'Wednesday' in rest_of_message or 'wed' in rest_of_message or 'Wed' in rest_of_message:
+        elif 'wednesday' in rest_of_message or 'wed' in rest_of_message:
             if today == 2:
                 await message.channel.send(yes)
             else:
@@ -50,7 +58,7 @@ async def on_message(message):
             if evan_flag is True:
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
-        if 'thursday' in rest_of_message or 'Thursday' in rest_of_message or 'thurs' in rest_of_message or 'Thurs' in rest_of_message:
+        elif 'thursday' in rest_of_message or 'thurs' in rest_of_message:
             if today == 3:
                 await message.channel.send(yes)
             else:
@@ -58,7 +66,7 @@ async def on_message(message):
             if evan_flag is True:
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
-        if 'friday' in rest_of_message or 'Friday' in rest_of_message or 'fri' in rest_of_message or 'Fri' in rest_of_message:
+        elif 'friday' in rest_of_message or 'fri' in rest_of_message:
             if today == 4:
                 await message.channel.send(yes)
             else:
@@ -66,7 +74,7 @@ async def on_message(message):
             if evan_flag is True:
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
-        if 'saturday' in rest_of_message or 'Saturday' in rest_of_message or 'sat' in rest_of_message or 'Sat' in rest_of_message:
+        elif 'saturday' in rest_of_message or 'sat' in rest_of_message:
             if today == 5:
                 await message.channel.send(yes)
             else:
@@ -74,7 +82,7 @@ async def on_message(message):
             if evan_flag is True:
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
-        if 'sunday' in rest_of_message or 'Sunday' in rest_of_message or 'sun' in rest_of_message or 'Sun' in rest_of_message:
+        elif 'sunday' in rest_of_message or 'sun' in rest_of_message:
             if today == 6:
                 await message.channel.send(yes)
             else:
@@ -83,10 +91,18 @@ async def on_message(message):
                 await message.channel.send('Are you excited for D&D day, Evan?')
             return
         
-        # If no date has been specified, send an error message
-        await message.channel.send('Please enter a valid date.')
+        # If no date has been specified, check for "dnd day" or "d&d day"
+        elif 'dnd day' in rest_of_message or 'd&d day' in rest_of_message or 'dndday' in rest_of_message or 'd&dday' in rest_of_message:
+            if today in dnd_day:
+                await message.channel.send(yes)
+            else:
+                await message.channel.send(no)
+            if evan_flag is True:
+                await message.channel.send('Hope you\'re liking the new update, Evan!')
+            return
 
-        if evan_flag is True:
-            await message.channel.send('Are you excited for D&D day, Evan?')
+        # Otherwise, request valid date
+        else:
+            await message.channel.send('Please enter a valid date.')
 
 client.run(bot_key)
