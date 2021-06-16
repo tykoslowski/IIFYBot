@@ -1,16 +1,13 @@
 import discord
-from datetime import datetime, timezone
+import datetime
+from datetime import timezone
 from secrets import bot_key
-
-def utc_to_local(utc_dt):
-    return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
 client = discord.Client()
 
 yes = 'Yes! LET\'S GO!!!'
 no = 'No, not yet!'
 evan_flag = False
-dnd_day = [0, 2]
 
 @client.event
 async def on_ready():
@@ -18,6 +15,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    dnd_day = [0, 2]
+    
     if message.author == client.user:
         return
 
@@ -27,11 +26,12 @@ async def on_message(message):
         evan_flag = False
 
     
-    if message.content.lower().startswith('is it '):
+    mess_temp = message.content.lower()
+    if mess_temp.startswith('is it '):
         rest_of_message_temp = message.content[6:] # Get the rest of the message
         rest_of_message = rest_of_message_temp.lower() # Format the rest of the message
-        dt_temp = datetime.datetime # Store datetime object
-        corrected_dt = utc_to_local(dt_temp) # Change timezone
+        dt_temp = datetime.datetime.now() # Store datetime object
+        corrected_dt = dt_temp.replace(tzinfo=timezone.utc).astimezone(tz=None) # Change timezone
         today = corrected_dt.today().weekday() # Get the day of the week as an integer (Mon: 0 - Sun: 6)
 
         if 'monday' in rest_of_message or 'mon' in rest_of_message:
