@@ -1,6 +1,5 @@
 import discord
 import datetime
-from datetime import timezone
 from secrets import bot_key
 
 client = discord.Client()
@@ -8,6 +7,8 @@ client = discord.Client()
 yes = 'Yes! LET\'S GO!!!'
 no = 'No, not yet!'
 evan_flag = False
+dnd_day = [0, 2]
+dst = True
 
 @client.event
 async def on_ready():
@@ -15,25 +16,37 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    dnd_day = [0, 2]
-    
+
+    # Don't check own messages
     if message.author == client.user:
         return
 
+    # Set Evan flag
     if message.author.id == 262687110853689355:
         evan_flag = True
     else:
         evan_flag = False
-
     
+    # Set message to all lowercase for processing
     mess_temp = message.content.lower()
     if mess_temp.startswith('is it '):
-        rest_of_message_temp = message.content[6:] # Get the rest of the message
-        rest_of_message = rest_of_message_temp.lower() # Format the rest of the message
-        dt_temp = datetime.datetime.now() # Store datetime object
-        corrected_dt = dt_temp.replace(tzinfo=timezone.utc).astimezone(tz=None) # Change timezone
-        today = corrected_dt.today().weekday() # Get the day of the week as an integer (Mon: 0 - Sun: 6)
+        
+        # Grab and format the rest of the message
+        rest_of_message_temp = message.content[6:]
+        rest_of_message = rest_of_message_temp.lower()
 
+        # Set timezone to PST or PDT depending on daylight savings time
+        today = 0
+        if dst is True:
+            tz_PDT = datetime.timezone(datetime.timedelta(hours=-7))
+            dt_PDT = datetime.datetime.now(tz=tz_PDT)
+            today = dt_PDT.today().weekday()
+        else:
+            tz_PST = datetime.timezone(datetime.timedelta(hours=-8))
+            dt_PST = datetime.datetime.now(tz=tz_PST)
+            today = dt_PST.today().weekday()
+
+        # Check for each weekday
         if 'monday' in rest_of_message or 'mon' in rest_of_message:
             if today == 0:
                 await message.channel.send(yes)
