@@ -40,11 +40,11 @@ async def on_message(message):
         if dst is True:
             tz_PDT = datetime.timezone(datetime.timedelta(hours=-7))
             dt_PDT = datetime.datetime.now(tz=tz_PDT)
-            today = dt_PDT.today().weekday()
+            today = dt_PDT.weekday()
         else:
             tz_PST = datetime.timezone(datetime.timedelta(hours=-8))
             dt_PST = datetime.datetime.now(tz=tz_PST)
-            today = dt_PST.today().weekday()
+            today = dt_PST.weekday()
 
         # Check for each weekday
         if 'monday' in rest_of_message or 'mon' in rest_of_message:
