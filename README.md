@@ -11,4 +11,4 @@ To get this running, update the main.py file in the bot's directory:
 - Use "pm2 start main.py --interpreter python3" to begin running the main file for the server
 - If there are errors, use "pm2 logs" to check the errors
 - To check the status of the server, use "pm2 status"
-- To stop the server, use "pm2 stop"
+- To stop the server, use "pm2 stop main.py"
